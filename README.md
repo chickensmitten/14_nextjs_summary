@@ -18,3 +18,6 @@
 - `pages/news.js` and `pages/news/index.js` both are in "mydomain.com/news"
 - `pages/news/something-important.js` both are in "mydomain.com/news/something-important"
 - `pages/news/[newsId].js` both are in "mydomain.com/news/<any other identifier>"
+
+## useRouter
+- `useRouter` allows you to get values encoded in the URL (among other things like programming navigation)
