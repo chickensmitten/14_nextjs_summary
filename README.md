@@ -13,3 +13,8 @@
 - Shift + Option + F to instant format the code with Prettier in VS Code You can find it in VSCode -> Preferences -> Keyboard Shortcuts -> Search for "format documents"
 - Run `npm install` if you are downloading existing project from GitHub
 - Run `npm run dev` to see changes made in local environment
+
+## Routing and File Directories
+- `pages/news.js` and `pages/news/index.js` both are in "mydomain.com/news"
+- `pages/news/something-important.js` both are in "mydomain.com/news/something-important"
+- `pages/news/[newsId].js` both are in "mydomain.com/news/<any other identifier>"

@@ -1,4 +1,4 @@
-// our-domwinas.com/news
+// mydomain.com/news
 
 function NewsPage() {
   return (

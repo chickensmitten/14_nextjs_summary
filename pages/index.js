@@ -1,4 +1,4 @@
-// our-domwinas.com
+// mydomain.com
 
 function HomePage() {
   return (
