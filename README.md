@@ -20,6 +20,22 @@
 - `pages/news/[newsId]/index.js` and `pages/news/[newsId].js` both are in "mydomain.com/news/<any other identifier>". It is possible to have dynamic folder pages and dynamic pages
 
 ## NextJS specific uses
-- `useRouter` allows you to get values encoded in the URL (among other things like programming navigation)
+- `useRouter` allows you to get values encoded in the URL (among other things like programming navigation with `router.push("/" + props.id);`
+```
+import { useRouter } from 'next/router';
+import Card from '../ui/Card';
+import classes from './MeetupItem.module.css';
+
+function MeetupItem(props) {
+  const router = useRouter();
+
+  function showDetailsHandler() {
+    router.push("/" + props.id);
+  }
+
+  return ( ... );
+}
+export default MeetupItem;
+```
 - `<Fragment> ... </Fragment>` is so that we can have a wrapper for JSX elements. Functions very similar to `<> ... </>`
 - `<Link> ... </Link>` It is used to maintain states (redux or context states ) in React for single page application. If you use `<a> ... </a>` all states are lost.
