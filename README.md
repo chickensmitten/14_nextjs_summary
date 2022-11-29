@@ -19,5 +19,7 @@
 - `pages/news/something-important.js` both are in "mydomain.com/news/something-important"
 - `pages/news/[newsId].js` both are in "mydomain.com/news/<any other identifier>"
 
-## useRouter
+## NextJS specific uses
 - `useRouter` allows you to get values encoded in the URL (among other things like programming navigation)
+- `<Fragment> ... </Fragment>` is so that we can have a wrapper for JSX elements. Functions very similar to `<> ... </>`
+- `<Link> ... </Link>` It is used to maintain states (redux or context states ) in React for single page application. If you use `<a> ... </a>` all states are lost.
