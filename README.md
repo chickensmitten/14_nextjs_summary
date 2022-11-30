@@ -13,6 +13,7 @@
 - Shift + Option + F to instant format the code with Prettier in VS Code You can find it in VSCode -> Preferences -> Keyboard Shortcuts -> Search for "format documents"
 - Run `npm install` if you are downloading existing project from GitHub
 - Run `npm run dev` to see changes made in local environment
+- `npm install mongodb`
 
 ## Routing and File Directories
 - `pages/news.js` and `pages/news/index.js` both are in "mydomain.com/news"
@@ -40,6 +41,7 @@ export default MeetupItem;
 - `<Fragment> ... </Fragment>` is so that we can have a wrapper for JSX elements. Functions very similar to `<> ... </>`
 - `<Link> ... </Link>` It is used to maintain states (redux or context states ) in React for single page application. If you use `<a> ... </a>` all states are lost.
 - Adding "<file-name-1>.module.css" in a folder with a similarly names "<file-name-1>.js", the css in the .module.css file will be scope to the js file by using `import classes from <file-name-1>.module.css;`. then use classes in className like this `<li className={classes.item}>`
+- Object destructuring example `const { title, image, address, description } = data;`
 - Static Generation: `getStaticProps` helps with prerendering pages in the server before sending it out to browser. This then helps with SEO. If this is not done, and Javascript is used instead while in browser, the data won't show, hence SEO won't be able to find it.
   - In production, will need to run `npm run build` so that the ALL static pages have been rendered. This is not necessary in development.
   - When in production, `revalidate: 600` will regenerate the static props every 600 seconds.
@@ -48,3 +50,6 @@ export default MeetupItem;
     - `paths` and `fallback` will be used. `paths` is to denote all the paths for the dynamic pages; while `fallback` denotes what happens if the paths are not found i.e. 404 error fallback set to false, if set to true, it will try to generate the page. Fallback true is needed cause sometimes, you don't pre-render all dyanmic pages as it can be huge.
 - Server-side Rendering: `getServerSideProps` is used to generate the components, page or props for every incoming requests.
   - `getServerSideProps(context)` context in getServerSideProps help in parsing incoming requests that only change part of a component, so that the UI can respond accordingly.
+- To enable API routes in NextJS. you have to create the following folder with the following name `pages/api`
+  - in api js files, only define functions that contains server side codes because it will only run on the server, never the front end client. 
+- After using MongoDB client, always remember to close the client by calling `client.close();`
