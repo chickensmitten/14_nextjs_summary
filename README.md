@@ -1,4 +1,4 @@
-# NextJS Summary
+# NextJS Summary (A Refresher, Recap and Relearn)
 ## About NextJS
 - NextJS is a fullstack React framework for production
 - Next is built on top of React
@@ -44,3 +44,4 @@ export default MeetupItem;
   - In production, will need to run `npm run build` so that the static pages have been rendered. This is not necessary in development.
   - When in production, `revalidate: 600` will regenerate the static props every 600 seconds.
 - Server-side Rendering: `getServerSideProps` is used to generate the components, page or props for every incoming requests.
+  - `getServerSideProps(context)` context in getServerSideProps help in parsing incoming requests that only change part of a component, so that the UI can respond accordingly.
