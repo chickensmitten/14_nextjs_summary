@@ -56,3 +56,4 @@ export default MeetupItem;
 - Caveats for using MongoClient
   - there are serialization errors in id `_id`. So you have to convert to Object with `ObjectId from mongodb` before `findOne`, then convert back to string with `toString()`
 - When doing API calls like fetching from MongoDB, it is always important to check if `async await` is in sequential order and used properly. Else, the code could run before the API request is fulfilled with a response, giving a lot of errors.
+- Using `import Head from "next/head";` to add meta data and meta tags for SEO
