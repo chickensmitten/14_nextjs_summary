@@ -48,6 +48,7 @@ export default MeetupItem;
   - `getStaticProps(context)` context in getStaticProps helps us get params with `context.params`.  
   - `getStaticPaths` is needed if the file is dynamic page and also uses get static props. It's job is to return an object that describe the dynamic page path values
     - `paths` and `fallback` will be used. `paths` is to denote all the paths for the dynamic pages; while `fallback` denotes what happens if the paths are not found i.e. 404 error fallback set to false, if set to true, it will try to generate the page. Fallback true is needed cause sometimes, you don't pre-render all dyanmic pages as it can be huge.
+    - Handling fallback, sometimes, the data is generated after deployment, hence if fallback is set to false, then users might not be able to find the page. To solve this, set fallback to true or blocking, so that next js will let the user wait while fetching the data.
 - Server-side Rendering: `getServerSideProps` is used to generate the components, page or props for every incoming requests.
   - `getServerSideProps(context)` context in getServerSideProps help in parsing incoming requests that only change part of a component, so that the UI can respond accordingly.
 - To enable API routes in NextJS. you have to create the following folder with the following name `pages/api`
@@ -57,3 +58,4 @@ export default MeetupItem;
   - there are serialization errors in id `_id`. So you have to convert to Object with `ObjectId from mongodb` before `findOne`, then convert back to string with `toString()`
 - When doing API calls like fetching from MongoDB, it is always important to check if `async await` is in sequential order and used properly. Else, the code could run before the API request is fulfilled with a response, giving a lot of errors.
 - Using `import Head from "next/head";` to add meta data and meta tags for SEO
+- After deploy, remember to set up MongoDB to allow connection from the production code.
