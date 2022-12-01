@@ -53,3 +53,6 @@ export default MeetupItem;
 - To enable API routes in NextJS. you have to create the following folder with the following name `pages/api`
   - in api js files, only define functions that contains server side codes because it will only run on the server, never the front end client. 
 - After using MongoDB client, always remember to close the client by calling `client.close();`
+- Caveats for using MongoClient
+  - there are serialization errors in id `_id`. So you have to convert to Object with `ObjectId from mongodb` before `findOne`, then convert back to string with `toString()`
+- When doing API calls like fetching from MongoDB, it is always important to check if `async await` is in sequential order and used properly. Else, the code could run before the API request is fulfilled with a response, giving a lot of errors.

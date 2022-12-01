@@ -13,6 +13,7 @@ function HomePage(props) {
 
 export async function getStaticProps() {
   // fetch data from an API
+  // this data is pre-renderred in server side
   const client = await MongoClient.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTERNAME}.srxozkr.mongodb.net/meetups?retryWrites=true&w=majority`);
   const db = client.db();
 
