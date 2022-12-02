@@ -48,23 +48,6 @@
 - `pages/news/[newsId]/index.js` and `pages/news/[newsId].js` both are in "mydomain.com/news/<any other identifier>". It is possible to have dynamic folder pages and dynamic pages
 
 ## NextJS specific uses
-- `useRouter` allows you to get values encoded in the URL (among other things like programming navigation with `router.push("/" + props.id);`
-```
-import { useRouter } from 'next/router';
-import Card from '../ui/Card';
-import classes from './MeetupItem.module.css';
-
-function MeetupItem(props) {
-  const router = useRouter();
-
-  function showDetailsHandler() {
-    router.push("/" + props.id);
-  }
-
-  return ( ... );
-}
-export default MeetupItem;
-```
 - `<Fragment> ... </Fragment>` is so that we can have a wrapper for JSX elements. Functions very similar to `<> ... </>`
 - `<Link> ... </Link>` It is used to maintain states (redux or context states ) in React for single page application. If you use `<a> ... </a>` all states are lost.
 - Adding "<file-name-1>.module.css" in a folder with a similarly names "<file-name-1>.js", the css in the .module.css file will be scope to the js file by using `import classes from <file-name-1>.module.css;`. then use classes in className like this `<li className={classes.item}>`
@@ -76,6 +59,7 @@ export default MeetupItem;
   - `getStaticPaths` is needed if the file is dynamic page and also uses get static props. It's job is to return an object that describe the dynamic page path values
     - `paths` and `fallback` will be used. `paths` is to denote all the paths for the dynamic pages; while `fallback` denotes what happens if the paths are not found i.e. 404 error fallback set to false, if set to true, it will try to generate the page. Fallback true is needed cause sometimes, you don't pre-render all dyanmic pages as it can be huge.
     - Handling fallback, sometimes, the data is generated after deployment, hence if fallback is set to false, then users might not be able to find the page. To solve this, set fallback to true or blocking, so that next js will let the user wait while fetching the data.
+    - `getStaticProps` works well with `useSWR` because it allows for pre-renderring, then followed by client side on demand fetching data whenever the data changes. use SWR after `function Name(props) { const { data, error = useSWR("https://some-url.com")} }`. Props here is pre-generated with get static props.
 - Server-side Rendering: `getServerSideProps` is used to generate the components, page or props for every incoming requests.
   - `getServerSideProps(context)` context in getServerSideProps help in parsing incoming requests that only change part of a component, so that the UI can respond accordingly.
 - To enable API routes in NextJS. you have to create the following folder with the following name `pages/api`
@@ -91,6 +75,7 @@ export default MeetupItem;
 - Link or useRouter?
 **router.push**
 `router.push('/push')` behaves similarly to window.location. It does not create a <a> tag, which means - if you are concern with SEO, your links will not be detected by crawlers.
-
 **<Link>**
 However, `<Link>` will create a <a> tag, which means your links will be detected when crawlers scrape your site. End users will still navigate with without reloading the page, creating the behavior of a Single Page App.
+- When to use `handler` in "pages/api"
+use `handler` functions only when the file name is `index.js` in a correctly created "pages/api" folder
