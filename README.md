@@ -88,3 +88,9 @@ export default MeetupItem;
 - After deploy, remember to set up MongoDB to allow connection from the production code.
 - Form Submission
   - When submitting form, need to have API call at the new form page. Then pass in a function that handles posts which goes to the api folder. Then in the form component, add in the data upon on submit. Refer to "pages/api/new-meetup.js", "pages/new-meetup/index.js" and "components/meetups/NewMeetupForm.js" for example implementation. 
+- Link or useRouter?
+**router.push**
+`router.push('/push')` behaves similarly to window.location. It does not create a <a> tag, which means - if you are concern with SEO, your links will not be detected by crawlers.
+
+**<Link>**
+However, `<Link>` will create a <a> tag, which means your links will be detected when crawlers scrape your site. End users will still navigate with without reloading the page, creating the behavior of a Single Page App.
