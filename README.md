@@ -13,7 +13,27 @@
 - Shift + Option + F to instant format the code with Prettier in VS Code You can find it in VSCode -> Preferences -> Keyboard Shortcuts -> Search for "format documents"
 - Run `npm install` if you are downloading existing project from GitHub
 - Run `npm run dev` to see changes made in local environment
+
+### Installation CheckList
+- `npm install -D tailwindcss postcss autoprefixer`
+- `npm install swr`
+- `npm install magic-sdk`
 - `npm install mongodb`
+
+### File and Folder Directory Configuration
+- In root add "jsconfig.json"
+```
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"],
+    }
+  }
+}
+```
+- 
 
 ## Routing and File Directories
 - `pages/news.js` and `pages/news/index.js` both are in "mydomain.com/news"
@@ -59,3 +79,5 @@ export default MeetupItem;
 - When doing API calls like fetching from MongoDB, it is always important to check if `async await` is in sequential order and used properly. Else, the code could run before the API request is fulfilled with a response, giving a lot of errors.
 - Using `import Head from "next/head";` to add meta data and meta tags for SEO
 - After deploy, remember to set up MongoDB to allow connection from the production code.
+- Form Submission
+  - When submitting form, need to have API call at the new form page. Then pass in a function that handles posts which goes to the api folder. Then in the form component, add in the data upon on submit. Refer to "pages/api/new-meetup.js", "pages/new-meetup/index.js" and "components/meetups/NewMeetupForm.js" for example implementation. 
