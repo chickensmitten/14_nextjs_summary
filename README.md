@@ -33,7 +33,14 @@
   }
 }
 ```
-- 
+- When creating file and folder directories in `pages/api` or `pages`, always follow the RESTful approach. Each REST verb (i.e. GET, POST, PUT, DELETE) corresponds to a file with actions (i.e. index, new, create, show etc) example below:
+  - `GET`, `/posts`, index, display a list of all posts
+  - `GET`, `/posts/new`, new, return a HTML form for creating new post
+  - `POST`, `/posts`, create, create a new post
+  - `GET`, `/posts/:id`, show, display a specific post
+  - `GET`, `/posts/:id/edit`, edit, return a HTML form to edit a post
+  - `PUT`, `/posts/:id`, update, update a specific post
+  - `DELETE`, `/posts/:id`, destroy, delete a specific post
 
 ## Routing and File Directories
 - `pages/news.js` and `pages/news/index.js` both are in "mydomain.com/news"
