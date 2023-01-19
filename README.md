@@ -8,6 +8,13 @@
 - File-based routing (shown in directory of the code base unlike ReactJS components)
 - Fullstack capabilities (has standalone backend code)
 
+## Resources
+Some other resources to refresh
+- [Next Portfolio SY from Jerga](https://github.com/chickensmitten/portfolio-sy)
+- [Express Portfolio SY from Jerga](https://github.com/chickensmitten/portfolio-sy-api)
+- [NextJS Summary from Max](https://github.com/chickensmitten/14_nextjs_summary)
+- [Learning Blog](https://github.com/chickensmitten/learning-blog)
+
 ## Setup
 - `npx create-next-app <name>`
 - Shift + Option + F to instant format the code with Prettier in VS Code You can find it in VSCode -> Preferences -> Keyboard Shortcuts -> Search for "format documents"
@@ -29,6 +36,17 @@
     "paths": {
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
+    }
+  }
+}
+
+or 
+
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["/*"]
     }
   }
 }
@@ -79,3 +97,187 @@
 However, `<Link>` will create a <a> tag, which means your links will be detected when crawlers scrape your site. End users will still navigate with without reloading the page, creating the behavior of a Single Page App.
 - When to use `handler` in "pages/api"
 use `handler` functions only when the file name is `index.js` in a correctly created "pages/api" folder
+
+## Anatomy of a NextJS app
+Below highlights the important anatomy
+- **components**: 
+  - To put views for partial pages
+- **pages**: 
+  - This is where APIs and the pages are located.
+  - NextJS auto creates sitemaps based on the pages. 
+  - `getStaticProps`, `getStaticPaths`, `getServerSideProps` are only usable in "pages". It is not usable in "components" and "lib"
+  - For dynamic pages, use `[id]` to create folder then use `index.js` as the default file. To load paths for dynamic static pages, when you use `getStaticProps`, you will need to have `getStaticPaths` to predefine all paths
+  - To use external API functions in pages, it is best to extract the external API calls to the API folder, then import the API functions in to the pages to call on it.
+- **public**:
+  - It holds assets like images, md files, videos etc.
+- **styles**:
+  - Holds css or scss files
+  - Some tutorials allow putting scss files in components next to the JS files. but I prefer it to be cleanly put into styles folder
+- **lib/utils/hoc/halpers**: 
+  - To store extra code to access third party libaries that doesn't quite fit in other folders  
+- **jsconfig.json**:
+  - To adjust paths and baseUrl so that `imports` in JS file will look nicer
+- **.env.development.local or .env.development.production**
+  - To put environment data
+
+## Testing Code
+- `npm install -D vitest`
+- `npm install -D axios-mock-adapter`
+- this is needed in package.json `"test": "vitest --run --reporter verbose"` to see a verbose report
+- create a "test" folder in "src" or in root directory.
+- create a "post.test.js" file to get started
+- run `npm test` to start testing
+- ensure you are in right root directory, then run `npm test` to get started with testing.
+- use `npm run test:watch` to keep the test constantly running in the background
+- example code testing in nutshell
+```
+/validation.js
+export function validateStringNotEmpty(value) {
+  if (value.trim().length === 0) {
+    throw new Error('Invalid input - must not be empty.');
+  }
+}
+
+export function validateNumber(number) {
+  if (isNaN(number) || typeof number !== "number") {
+    throw new Error('Invalid number input.');
+  }
+}
+
+
+/validation.test.js
+import { it, expect, describe } from 'vitest';
+
+import { validateNumber, validateStringNotEmpty } from './validation';
+
+describe("validateStringNotEmpty()", () => {
+  // can also add more describe() functions within describe functions
+  it('should throw an error, if an empty string is provided', () => {
+    const input = '';
+    const validationFn = () => validateStringNotEmpty(input);
+    expect(validationFn).toThrow();
+  });
+  
+  it('should throw an error with a message that contains a reason (must not be empty)', () => {
+    const input = '';
+    const validationFn = () => validateStringNotEmpty(input);
+    expect(validationFn).toThrow(/must not be empty/);
+  });
+  
+  it('should throw an error if a long string of blanks is provided', () => {
+    const input = '';
+    const validationFn = () => validateStringNotEmpty(input);
+    expect(validationFn).toThrow();
+  });
+  
+  it('should throw an error if any other value than a string is provided', () => {
+    const inputNum = 1;
+    const inputBool = true;
+    const inputObj = {};
+  
+    const validationFnNum = () => validateStringNotEmpty(inputNum);
+    const validationFnBool = () => validateStringNotEmpty(inputBool);
+    const validationFnObj = () => validateStringNotEmpty(inputObj);
+  
+    expect(validationFnNum).toThrow();
+    expect(validationFnBool).toThrow();
+    expect(validationFnObj).toThrow();
+  });
+  
+  it('should not throw an error, if a non-empty string is provided', () => {
+    const input = 'valid';
+    const validationFn = () => validateStringNotEmpty(input);
+    expect(validationFn).not.toThrow();
+  });
+
+});
+
+describe("validateNumber()", () => {
+  it('should throw an error if NaN is provided', () => {
+    const input = NaN;
+    const validationFn = () => validateNumber(input);
+    expect(validationFn).toThrow();
+  });
+  
+  it('should throw an error with a message that contains a reason (invalid number)', () => {
+    const input = NaN;
+    const validationFn = () => validateNumber(input);
+    expect(validationFn).toThrow(/Invalid number/);
+  });
+  
+  it('should throw an error if a non-numeric value is provided', () => {
+    const input = '1';
+    const validationFn = () => validateNumber(input);
+    expect(validationFn).toThrow();
+  });
+  
+  it('should not throw an error, if a number is provided', () => {
+    const input = 1;
+    const validationFn = () => validateNumber(input);
+    expect(validationFn).not.toThrow();
+  });
+});
+
+import { it, expect, describe, beforeEach, beforeAll, afterEach, afterAll } from 'vitest';
+import axios from 'axios';
+import MockAdapter from "axios-mock-adapter";
+import getPosts from 'src/pages/api/posts';
+
+describe("getPosts()", () => {
+  let mock;
+
+  beforeAll(() => {
+    mock = new MockAdapter(axios);
+  });
+
+  afterEach(() => {
+    mock.reset();
+  });
+
+  describe("when API call is successful", () => {
+    it("should return posts", async () => {
+      const posts = [
+        { _id: 1, title: "first", content: "first content" },
+        { _id: 2, title: "second", content: "second content" },
+      ];
+      mock.onGet("http://localhost:8080/posts").reply(200, posts);
+      const response = await getPosts();
+      expect(mock.history.get[0].url).toEqual('http://localhost:8080/posts');
+      expect(response).toEqual(posts);            
+    });
+  });  
+
+  describe("when API call fails", () => {
+    it("should return empty posts list", async () => {
+      mock.onGet("http://localhost:8080/posts").networkErrorOnce();
+      const response = await getPosts();
+      expect(mock.history.get[0].url).toEqual('http://localhost:8080/posts');
+      expect(response).toEqual([]);   
+    });
+  });
+
+});
+
+```
+- code testing with spies. see here for more info: [side effect tests](https://github.com/chickensmitten/side-effect-tests)
+```
+import { describe, it, expect, vi } from "vitest";
+import { generateReportData } from "./data";
+
+describe("generateReportData()", () => {
+  it("should execute logFn if provided", () => {
+    // vi.fn() works to generate a spy function, to check if the function is called when a function is run.
+    const logger = vi.fn();
+
+    // logger.mockImplementationOnce(() => {});
+    // use mockImplementation or mockImplementationOnce to replace the original mock function
+    // if you just want to do so for one of the it tests.
+
+    generateReportData(logger);
+    // this creates an empty function and tests if the logger is called.
+    // because the function above runs the logger function inside the function
+
+    expect(logger).toBeCalled();
+  })
+});
+```
